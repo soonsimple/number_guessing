@@ -9,9 +9,19 @@
 ! 2022-4-24
 !
 ! **********************************************************************
+!
+! The program requires three procedures that are not part of the ANSI/ISO FORTRAN 77 language standard:
+! RESULT = TIME()
+! Returns timestamp in seconds (INTEGER). Required for the initialisation of the pseudo-random number generator.
+! RESULT = RAND(I)
+! Returns the next random number (REAL).
+! CALL SRAND(SEED)
+! Initialises the pseudo-random number generator with given seed value (INTEGER).
+!
+! ***********************************************************************
 program main
    implicit none
-   integer :: input, yourtry, iguess, imax, isecre, limit
+   integer :: input, yourtry, yourguess, imax, isecre, limit
 
    call srand(time())
 
@@ -27,19 +37,19 @@ program main
    print '(a,i5,a)', ' I am thinking of a number between 1 and', limit, '...'
    print '(a,$)', ' Now you try to guess what it is: '
    isecre = int(rand(0)*limit) + 1
-   iguess = 0
+   yourguess = 0
    yourtry = 0
 
    do while (.true.)
       yourtry = yourtry + 1
-      iguess = input()
+      yourguess = input()
 
-      if (iguess == isecre) Then
+      if (yourguess == isecre) Then
          exit
       else
-         if (iguess < isecre) Then
+         if (yourguess < isecre) Then
             print '(a,$)', ' Too low. try a bigger answer: '
-         else if (iguess > isecre) Then
+         else if (yourguess > isecre) Then
             print '(a,$)', ' Too high. Try a smaller answer: '
          end if
       end if
